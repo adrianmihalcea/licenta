@@ -1,14 +1,49 @@
-const express = require('express')
+const express = require('express');
+const fileUpload = require('express-fileupload');
+const pinataSDK = require('@pinata/sdk');
 
-const app = express()
-const port = 8080
+const secrets = require('./secrets');
+const constants = require('./constants')
+
+const app = express();
+const port = 8080;
+app.use(fileUpload())
+const pinata = pinataSDK(secrets.PINATA_API.key, secrets.PINATA_API.secret);
 
 app.listen(port, () => {
     console.log('Starting up Backend on port 8080');
-})
+});
 
 app.get('/test', (req, res) => {
-    res.send({
-        'yellow': 'sir'
-    })
+    return res.send({'hello': 'world'})
+});
+
+app.get('/testPinata', (req, res) => {
+    pinata.testAuthentication().then((result) => {
+        //handle successful authentication here
+        console.log(result);
+    }).catch((err) => {
+        //handle error here
+        console.log(err);
+    });
+
+    return res.send('nice');
 })
+
+app.post('/upload', (req, res) => {
+    if (req.files === null) {
+        return res.status(400).json({
+            "error": "No file was uploaded"
+        });
+    }
+
+    const file = req.files.file;
+    const path = __dirname + "/uploads/" + new Date().getTime() + file.name;
+
+    file.mv(path, (err) => {
+        if (err) {
+        return res.status(500).send(err);
+        }
+        return res.send({ status: "success", path: path });
+    });
+});
