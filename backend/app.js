@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const pinataSDK = require('@pinata/sdk');
 const fs = require('fs');
+const bodyParser = require('body-parser');
 
 const secrets = require('./secrets');
 const routes = require('./src/routes');
@@ -10,12 +11,13 @@ const app = express();
 const port = 8080;
 app.use(fileUpload())
 const pinata = pinataSDK(secrets.PINATA_API.key, secrets.PINATA_API.secret);
+const jsonParser = bodyParser.json()
 
 app.listen(port, () => {
     console.log('Starting up Backend on port 8080');
 });
 
-routes.initRoutes(app);
+routes.initRoutes(app, jsonParser);
 
 app.get('/testPinata', (req, res) => {
     pinata.testAuthentication().then((result) => {
