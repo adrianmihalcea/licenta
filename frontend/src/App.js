@@ -4,16 +4,21 @@ import Navigation from './components/Navigation';
 import Home from './components/Home';
 import { Route, Routes } from "react-router-dom";
 
+import Select from './components/Select';
+import View from './components/View';
+import Upload from './components/Upload';
+import ViewDocument from './components/ViewDocument.jsx';
+
 export default class App extends Component {
   render() {
     return (
       <>
         <Navigation />
         <Routes>
-          {/* <Route path='/ShowAll' component={ShowAll} /> */}
-          {/* <Route path='/login' component={() => <Login history={this.props.history} func={this.callbackFunction} />} /> */}
-          {/* <Route path='/signup' component={Signup} /> */}
-          {/* <Route path='/details' component={() => <Details mockJSON={mockJSON} bond="Airbus 3.15% USD" />} /> */}
+          <Route path='/select' element={<Select />} />
+          <Route path='/view' element={<View />} />
+          <Route path='/view/:id' element={<ViewDocument />} />
+          <Route path='/upload' element={<Upload />} />
           <Route exact path='/' element={<Home />} />
         </Routes>
       </>

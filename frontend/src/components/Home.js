@@ -16,9 +16,9 @@ export default class Home extends Component {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    height: '30vh'
+                    height: '80vh'
                 }}>
-                    <h1>DB Coding Challenge - Group 1</h1>
+                    <h1>Validarea documentelor folosind Blockchain</h1>
                 </div>
             </>
         );
