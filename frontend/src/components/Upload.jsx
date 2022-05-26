@@ -1,8 +1,22 @@
+import { useState } from 'react';
+
 const Upload = () =>
 {
-    return(<>
-        <h1> Upload placeholder </h1>
-    </>);
+    const [file, setFile] = useState()
+
+    function handleChange(event) {
+        setFile(event.target.files[0])
+    }
+
+    return (
+        <div className="App">
+            <form>
+            <h1>React File Upload</h1>
+            <input type="file" onChange={handleChange}/>
+            <button type="submit">Upload</button>
+            </form>
+        </div>
+    );
 }
 
 export default Upload;
