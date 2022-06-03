@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Container, Card, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Select = () =>
@@ -13,11 +13,34 @@ const Select = () =>
         navigate('/upload');
     }
 
-    return(<>
-        <h1>Select desired action</h1>
-        <Button onClick={handleViewButton}>View</Button>
-        <Button onClick={handleUploadButton}>Upload</Button>
-    </>);
+    return(<Container fluid style={{
+        width: '50%',
+        margin: 'auto',
+        textAlign: 'center'
+    }}>
+        <Row style={{
+            padding: '10%',
+            borderRadius: '10px'
+        }}>
+            <h1>Select desired action</h1>
+        </Row>        
+        <Row><Card bg='success' text='light'><Card.Body>
+                <Card.Text style={{
+                    fontSize: '20pt'
+                }}>
+                Access metadata for an already saved document, providing its hash
+                </Card.Text>
+                <Button onClick={handleViewButton} variant='secondary'>View</Button>
+        </Card.Body></Card></Row>
+        <Row><Card bg='danger' text='light'><Card.Body>
+            <Card.Text style={{
+                fontSize: '20pt'
+            }}>
+            Upload a new document to the IPFS, and add its metadata to the ETH blockchain
+            </Card.Text>
+            <Button onClick={handleUploadButton} variant='secondary'>Upload</Button>
+        </Card.Body></Card></Row>
+    </Container>);
 }
  
 export default Select;
