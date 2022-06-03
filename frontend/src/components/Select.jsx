@@ -5,16 +5,11 @@ const Select = () =>
 {
     const navigate = useNavigate();
 
-    const handleViewButton = (event) => {
-        console.log("1");
-        // this.state.matureFlag = !this.state.matureFlag;
-        // this.forceUpdate();
+    const handleViewButton = () => {
         navigate('/view');
     }
     
-    const handleUploadButton = (event) => {
-        // this.state.futureFlag = !this.state.futureFlag;
-        // this.forceUpdate();
+    const handleUploadButton = () => {
         navigate('/upload');
     }
 
