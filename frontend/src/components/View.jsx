@@ -24,7 +24,7 @@ const View = () =>
     return(<Container fluid className={styles.container}>
 
     <Form className={styles.form}>
-        <Form.Label htmlFor="form1">Document Id</Form.Label>
+        <Form.Label htmlFor="form1">Document ID</Form.Label>
         <Form.Control
             type="text"
             id="form1"
@@ -33,7 +33,7 @@ const View = () =>
             onChange={updateParam}
         />
         <Form.Text id="description" muted>
-            Provide the hash of the document for which you want to view the metadata<br></br>
+            Please provide the hash of the document for which you want to view the metadata<br></br>
         </Form.Text>
         <Button variant="primary" type="submit" id="button1" onClick={submit}>
             Click here to submit form

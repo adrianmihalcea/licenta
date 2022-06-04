@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.viewContainer {
+    display: flex;
+    padding: 25px;
+}
+
+.qrCard {
+    width: 18rem;
+    margin: auto;
+}

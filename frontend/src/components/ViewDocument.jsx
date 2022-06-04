@@ -1,14 +1,21 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
-import { Spinner, Table, Card, Button } from 'react-bootstrap';
+import { Spinner, Table, Card, Container, Button } from 'react-bootstrap';
+
+import styles from '../styles/view_document.module.css';
 
 const ViewDocument = () =>
 {
     const {id} = useParams();
+    const navigate = useNavigate();
 
     const [metadata, setMetadata] = React.useState(null);
     const [qr, setQr] = React.useState(null);
+
+    const handleBackButton = () => {
+        navigate('/view');
+    }
 
     React.useEffect(() => {
         async function getImage(link) {
@@ -20,7 +27,14 @@ const ViewDocument = () =>
         async function getMetadata(id) {
             await axios.get('http://localhost:8080/view?id=' + id).then((response) => {
                 setMetadata(response.data);
-                getImage(response.data.link);
+                getImage('http://localhost:3000/view/' + id);
+            }).catch((error) => {
+                if (error.response.status === 500) {
+                    setMetadata({
+                        error: 'Internal server error'
+                    })
+                    getImage('http://localhost:3000/view/' + id);
+                }
             });
         }
 
@@ -29,12 +43,25 @@ const ViewDocument = () =>
     }, [id]);
 
     if (!metadata || !qr) return(
-        <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-        </Spinner>
+        <Container fluid className={styles.container}>
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </Container>
     )
 
-    return(<>
+    if (metadata.error) return(
+        <Container fluid className={styles.container}>
+            <Card style={{
+                fontSize: '25pt'
+            }}>
+                <Card.Body>The server could not retrieve a document with that id</Card.Body>
+                <Button onClick={handleBackButton}>Go back</Button>
+            </Card>
+        </Container>
+    );
+
+    return(<Container className={styles.viewContainer}>
 
     <Card><Card.Body>
         <Table striped bordered hover>
@@ -54,19 +81,17 @@ const ViewDocument = () =>
         </tbody>
         </Table>
     </Card.Body></Card>
-    <Card style={{ width: '18rem' }}>
+    <Card className={styles.qrCard}>
         <Card.Img variant="top" src={qr} />
         <Card.Body>
-            <Card.Title>Card Title</Card.Title>
+            <Card.Title>QR code</Card.Title>
             <Card.Text>
-            Some quick example text to build on the card title and make up the bulk of
-            the card's content.
+                This QR code contains the link to this page. It can be used to validate the document.
             </Card.Text>
-            <Button variant="primary">Go somewhere</Button>
         </Card.Body>
     </Card>
 
-    </>);
+    </Container>);
 }
 
 export default ViewDocument;

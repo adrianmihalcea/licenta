@@ -27,7 +27,7 @@ const Home =() => {
             <Card.Title style={{
                 fontSize: '42pt'
             }}>Document validation over ETH and IPFS</Card.Title>
-            <Button onClick={handleGoButton} variant='secondary' style={{
+            <Button onClick={handleGoButton} variant='warning' style={{
                 fontSize: '35pt'
             }}>Start</Button>
         </Card.Body></Card></Row>
