@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+
+import styles from '../styles/view.module.css';
 
 const View = () =>
 {
@@ -14,20 +16,14 @@ const View = () =>
 
     const updateParam = (event) => {
         event.preventDefault();
-        setParam((prevState) => ({
+        setParam(() => ({
           id: event.target.value,
         }));
       }
 
-    return(<div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '80vh',
-        width: '75vh'
-    }} >
+    return(<Container fluid className={styles.container}>
 
-    <Form>
+    <Form className={styles.form}>
         <Form.Label htmlFor="form1">Document Id</Form.Label>
         <Form.Control
             type="text"
@@ -37,14 +33,14 @@ const View = () =>
             onChange={updateParam}
         />
         <Form.Text id="description" muted>
-            Provide the hash of the document for which you want to view the metadata
+            Provide the hash of the document for which you want to view the metadata<br></br>
         </Form.Text>
         <Button variant="primary" type="submit" id="button1" onClick={submit}>
             Click here to submit form
         </Button>
     </Form>
 
-    </div>);
+    </Container>);
 }
 
 export default View;

@@ -1,0 +1,22 @@
+.footerImage {
+    width: 10vw;
+    padding: 5%;
+    margin: auto;
+}
+
+.tallFooterImage {
+    width: 7vw;
+    padding: 5%;
+    margin: auto;
+}
+
+.titleCard {
+    padding-top: 5%;
+    padding-bottom: 20%;
+}
+
+.footerBox {
+    padding: 2%;
+    border-style: dashed;
+    border-color: darkblue;
+}

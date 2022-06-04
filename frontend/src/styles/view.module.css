@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    width: 75vh;
+}
+
+.form {
+    padding: 5%;
+    border-style: dashed;
+    border-radius: 10pt;
+    border-color: blue;
+    font-size: 20pt;
+}

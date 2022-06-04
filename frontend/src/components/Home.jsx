@@ -1,10 +1,12 @@
 import { React } from "react";
-import { Col, Row, Container, Image, Button, Card } from 'react-bootstrap';
+import { Col, Row, Container, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import logoEth from '../resources/logo_eth.png';
 import logoIpfs from '../resources/logo_ipfs.png';
 import logoUpb from '../resources/logo_upb.jpg';
+
+import styles from '../styles/home.module.css';
 
 const Home =() => {
     const navigate = useNavigate();
@@ -14,30 +16,12 @@ const Home =() => {
     }
 
     return (<Container fluid style={{
-        width: '60%',
+        width: '70%',
         margin: 'auto',
         textAlign: 'center'
     }}>
-        {/* <Row style={{
-            padding: '18%',
-            backgroundColor: '#10c4c9',
-            borderRadius: '10px'
-        }}>
-            <Col>
-            <h1>Validarea documentelor peste Ethereum si IPFS</h1>
-            </Col>
-            
-        </Row>
-        <Row>
-            <Col><Button onClick={handleGoButton} size="lg" variant="secondary" style={{
-                padding: '2%'
-            }}>Let's start</Button></Col>
-        </Row> */}
 
-        <Row style={{
-            paddingTop: '5%',
-            paddingBottom: '20%'
-        }}><Card bg='info' text='dark' style={{
+        <Row className={styles.titleCard}><Card bg='primary' text='light' style={{
             height: '25vh'
         }}><Card.Body>
             <Card.Title style={{
@@ -48,19 +32,25 @@ const Home =() => {
             }}>Start</Button>
         </Card.Body></Card></Row>
 
-        <Row style={{
-            padding: '4%',
-            borderStyle: 'dotted'
-        }}>
-            <Col><Image src={logoEth} className='img-fluid' style={{
-                width: '35%'
-            }}/></Col>
-            <Col><Image src={logoIpfs} className='img-fluid' style={{
-                width: '50%'
-            }}/></Col>
-            <Col><Image src={logoUpb} className='img-fluid' style={{
-                width: '50%'
-            }}/></Col>
+        <Row className={styles.footerBox}>
+            <Col>
+                <Card bg='primary' text='light'>
+                    <Card.Title>Ethereum</Card.Title>
+                    <Card.Img src={logoEth} className={styles.tallFooterImage}/>
+                </Card>
+            </Col>
+            <Col>
+                <Card bg='primary' text='light'>
+                    <Card.Title>InterPlanetary File System</Card.Title>
+                    <Card.Img src={logoIpfs} className={styles.footerImage}/>
+                </Card>
+            </Col>
+            <Col>
+                <Card bg='primary' text='light'>
+                    <Card.Title>UPB</Card.Title>
+                    <Card.Img src={logoUpb} className={styles.footerImage}/>
+                </Card>
+            </Col>
         </Row>
     </Container>);
 }
