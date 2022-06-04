@@ -1,10 +1,15 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Spinner, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+
+import styles from '../styles/upload.module.css';
 
 const Upload = () =>
 {
     const [file, setFile] = useState('');
+    const [spinnerFlag, setSpinnerFlag] = useState(false);
+    const [ipfsHash, setIpfsHash] = useState('');
     const navigate = useNavigate();
 
     function handleChange(event) {
@@ -12,38 +17,59 @@ const Upload = () =>
         setFile(event.target.files[0]);
     }
 
-    const submit = (event) => {
+    function handleFinalise(event) {
         event.preventDefault();
-        navigate('/view/' + 'temp');
+        navigate('/save/' + ipfsHash);
     }
 
-    return (<Container>
-        <Form>
-        <Form.Label htmlFor="form1">Document ID</Form.Label>
-        <Form.Control
-            type="file"
-            id="form1"
-            aria-describedby="description"
-            value={file}
-            onChange={handleChange}
-        />
-        <Form.Text id="description" muted>
-            Please provide the hash of the document for which you want to view the metadata<br></br>
-        </Form.Text>
-        <Button variant="primary" type="submit" id="button1" onClick={submit}>
-            Click here to submit form
-        </Button>
-    </Form>
-    </Container>
+    const submit = (event) => {
+        event.preventDefault();
+        console.log(file);
+        setSpinnerFlag(true);
+        // navigate('/view/' + 'temp');
+        var formData = new FormData();
+        formData.append("file", file);
+        axios.post('http://localhost:8080/pin', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+            console.log(response);
+            setSpinnerFlag(false);
+            setIpfsHash(response.data.IpfsHash);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
-        // <div className="App">
-        //     <form>
-        //     <h1>React File Upload</h1>
-        //     <input type="file" onChange={handleChange}/>
-        //     <button type="submit">Upload</button>
-        //     </form>
-        // </div>
-    );
+    if (spinnerFlag) {
+        return (
+        <Container fluid className={styles.container}>
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </Container>
+        );
+    }
+
+    if (ipfsHash) {
+        return (<Container>
+            <Card>
+                <Card.Body>ipfsHash: {ipfsHash}</Card.Body>
+                <Button variant="primary" onClick={handleFinalise}>Finalise</Button>
+            </Card>
+        </Container>);
+    }
+
+    return (<Container className={styles.container}>
+        <Card>
+            <Card.Title>React File Upload</Card.Title>
+        <form>
+            <input type="file" onChange={handleChange}/>
+            <Button variant="primary" type="submit" onClick={submit}>Upload</Button>
+        </form>
+        </Card>
+    </Container>);
 }
 
 export default Upload;
