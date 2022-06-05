@@ -5,7 +5,9 @@ const Navigation = () =>
 {
     return (<>
 
-    < Navbar bg="primary" expand="lg" >
+    <Navbar bg="primary" expand="lg" style={{
+        fontSize: 'large'
+    }}>
         <Container>
             <Navbar.Brand href="">Licenta</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -18,7 +20,7 @@ const Navigation = () =>
                 </Nav>
             </Navbar.Collapse>
         </Container>
-    </Navbar >
+    </Navbar>
 
     </>);
 };

@@ -1,6 +1,9 @@
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Spinner, Card } from "react-bootstrap";
 import { useParams, useNavigate } from 'react-router-dom';
 import React from "react";
+import axios from "axios";
+
+import styles from '../styles/save.module.css';
 
 const getCurrentDate = () => {
     return new Date().toISOString().substring(0, 10);
@@ -20,7 +23,8 @@ const Save = () => {
         issuedTo: "",
         link: getPinataLinkFromHash(ipfsHash)
     });
-    const [redirectFlag, setRedirectFlag] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [beError, setBeError] = React.useState(null);
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -31,9 +35,43 @@ const Save = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(metadata);
-        console.log(redirectFlag);
+        setIsLoading(true);
+        axios.post('http://localhost:8080/save', metadata)
+        .then(res => {
+            console.log(res);
+            navigate('/view/' + res.data.link_hash);
+        }).catch(err => {
+            setBeError(err.response.data.error);
+            setIsLoading(false);
+        });
     };
+
+    const handleBackButton = (event) => {
+        event.preventDefault();
+        navigate('/upload');
+    };
+
+    if (isLoading) {
+        return(
+        <Container fluid className={styles.container}>
+            <p>Processing the ETH transaction can take up to a minute</p>
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </Container>);
+    }
+
+    if (beError) {
+        return(
+        <Container fluid className={styles.container}>
+            <Card>
+                <Card.Body>There was an error processing the transaction</Card.Body>
+                <Card.Footer>{beError}</Card.Footer>
+                <Button onClick={handleBackButton}>Go back</Button>
+            </Card>
+        </Container>
+        );
+    }
 
     return (<Container>
         <Form>
@@ -57,20 +95,14 @@ const Save = () => {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Issued To</Form.Label>
-                <Form.Control type="text" placeholder="Enter Issuee" />
+                <Form.Control type="text" placeholder="Enter Issuee" 
+                    name='issuedTo' value={metadata.issuedTo} onChange={handleChange}/>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Link</Form.Label>
                 <Form.Control type="text" placeholder={getPinataLinkFromHash(ipfsHash)}  disabled />
             </Form.Group>
 
-            <Form.Group>
-                <Form.Check type="checkbox" label="Redirect to view page" defaultChecked onChange={
-                    (event) => {
-                        setRedirectFlag(event.target.checked);
-                    }
-                }/>
-            </Form.Group>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
                 Save metadata
             </Button>

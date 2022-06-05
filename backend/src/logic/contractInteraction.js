@@ -94,14 +94,16 @@ const save = async (req, res) => {
 
     if (sendError) {
         return res.status(500).json({
-            'error': sendError
+            'error': 'Communications error.',
+            'data': sendError
         });
     }
 
     if (processError) {
         return res.status(500).json({
-            'error': processError
-        });s
+            'error': 'Contract error.',
+            'data': processError
+        });
     }
     
     return res.status(200).json({
