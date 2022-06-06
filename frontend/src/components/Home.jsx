@@ -28,7 +28,8 @@ const Home =() => {
                 fontSize: '42pt'
             }}>Document validation over ETH and IPFS</Card.Title>
             <Button onClick={handleGoButton} variant='warning' style={{
-                fontSize: '35pt'
+                fontSize: '35pt',
+                marginTop: '25px'
             }}>Start</Button>
         </Card.Body></Card></Row>
 
