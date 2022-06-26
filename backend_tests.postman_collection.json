@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "652ce406-85b6-4c24-830a-5b25952d9e1e",
+		"name": "teste_backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20804269"
+	},
+	"item": [
+		{
+			"name": "View Document",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/view?id=999d0c4597ee32a593751491071e33d9",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"view"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "999d0c4597ee32a593751491071e33d9"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save to Smart Contract",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"issuer\": \"UPB\",\r\n  \"issueDate\": \"2022-06-05\",\r\n  \"documentType\": \"Text\",\r\n  \"issuedTo\": \"Adrian Mihalcea\",\r\n  \"link\": \"https://gateway.pinata.cloud/ipfs/QmQDRtXGMBcUEGGSHhU1Wm9spXoLbPyK3wpuKyfytsBo8S\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/save",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate QR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let template = `<img src='{{photo}}'/>`;\r",
+							"\r",
+							"pm.visualizer.set(template, pm.response.json());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/generateQR?link=https://gateway.pinata.cloud/ipfs/QmQDRtXGMBcUEGGSHhU1Wm9spXoLbPyK3wpuKyfytsBo8S",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"generateQR"
+					],
+					"query": [
+						{
+							"key": "link",
+							"value": "https://gateway.pinata.cloud/ipfs/QmQDRtXGMBcUEGGSHhU1Wm9spXoLbPyK3wpuKyfytsBo8S"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pin File to IPFS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/amiha/Desktop/test.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/pin",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
